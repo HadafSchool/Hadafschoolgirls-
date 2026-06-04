@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دبیرستان هدف</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rose:#e8437a;--rose-light:#f472a0;--rose-dark:#c0265c;
+  --gold:#f5c842;--gold-dark:#d4a017;
+  --purple:#7c3aed;--purple-light:#a78bfa;
+  --teal:#2ec4b6;--deep:#1a0a2e;--white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Vazirmatn',sans-serif;background:var(--deep);color:var(--white);overflow-x:hidden;direction:rtl;}
+
+/* ══ HERO — full viewport, NO hints of content below ══ */
+.hero{
+  height:100vh; /* exactly viewport — nothing peeks below */
+  min-height:600px;
+  background:linear-gradient(135deg,#0e0420 0%,#2d1060 45%,#5b1a8f 72%,#c0265c 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;position:relative;overflow:hidden;
+  padding:0 20px;
+}
+.hero::after{content:none;} /* no scroll arrow */
+
+.hero-glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 10%,rgba(232,67,122,.22) 0%,transparent 70%),
+    radial-gradient(ellipse 55% 45% at 85% 85%,rgba(124,58,237,.25) 0%,transparent 60%),
+    radial-gradient(ellipse 45% 40% at 10% 65%,rgba(46,196,182,.12) 0%,transparent 60%);
+}
+.stars{position:absolute;inset:0;pointer-events:none;}
+.star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite alternate;}
+@keyframes twinkle{from{opacity:.1;transform:scale(.7);}to{opacity:.85;transform:scale(1.3);}}
+
+.petals-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.petal-bg{
+  position:absolute;width:7px;height:7px;border-radius:50% 0 50% 0;
+  background:rgba(232,67,122,.28);
+  animation:fallPetal var(--d,9s) linear infinite;animation-delay:var(--delay,0s);
+}
+@keyframes fallPetal{
+  0%{transform:translateY(-40px) rotate(0deg);opacity:0;}
+  10%{opacity:1;}90%{opacity:.35;}
+  100%{transform:translateY(105vh) rotate(600deg);opacity:0;}
+}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(245,200,66,.12);border:1.5px solid rgba(245,200,66,.4);
+  color:var(--gold);font-size:14px;font-weight:600;padding:8px 22px;
+  border-radius:50px;margin-bottom:28px;letter-spacing:.04em;
+  animation:fadeDown .8s ease both;backdrop-filter:blur(10px);
+}
+
+/* ── FLORAL LOGO ── */
+.hero-logo-wrap{
+  position:relative;display:inline-block;
+  margin-bottom:16px;animation:fadeDown .9s ease both .1s;
+}
+.hero-logo-text{
+  font-size:clamp(82px,16vw,148px);font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#fff8f0 0%,#f5c842 42%,#e8437a 85%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 38px rgba(232,67,122,.38));
+  position:relative;z-index:2;padding:0 18px;
+}
+
+.hero-subtitle{font-size:clamp(14px,3vw,20px);color:rgba(255,255,255,.72);margin-bottom:5px;animation:fadeDown 1s ease both .2s;letter-spacing:.04em;}
+.hero-type{font-size:clamp(16px,3.5vw,22px);font-weight:700;color:var(--rose-light);margin-bottom:34px;animation:fadeDown 1s ease both .3s;}
+
+.grades-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeDown 1s ease both .4s;}
+.grade-pill{
+  background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);
+  border-radius:50px;padding:11px 26px;font-size:clamp(14px,2.8vw,17px);font-weight:700;
+  backdrop-filter:blur(10px);transition:all .3s;cursor:default;
+}
+.grade-pill:hover{background:rgba(232,67,122,.25);border-color:var(--rose-light);transform:translateY(-4px);box-shadow:0 8px 24px rgba(232,67,122,.25);}
+
+/* ══ SECTION COMMON ══ */
+.section-wrap{max-width:960px;margin:0 auto;padding:90px 24px;}
+.section-title{
+  font-size:clamp(22px,5vw,32px);font-weight:800;text-align:center;
+  margin-bottom:52px;position:relative;
+}
+.section-title::after{
+  content:'';display:block;width:54px;height:3.5px;
+  background:linear-gradient(90deg,var(--rose),var(--gold));
+  border-radius:2px;margin:11px auto 0;
+}
+
+/* ══ WHY SECTION — Horizontal Slider ══ */
+.why-section{background:linear-gradient(180deg,#0d0620 0%,#160832 100%);}
+.why-section .section-title{margin-bottom:16px;}
+
+.slider-hint{
+  text-align:center;color:rgba(255,255,255,.38);font-size:13px;
+  margin-bottom:36px;letter-spacing:.04em;
+}
+
+.slider-outer{
+  position:relative;
+  overflow:hidden;
+  padding-bottom:12px;
+}
+/* track */
+.slider-track{
+  display:flex;gap:22px;
+  transition:transform .55s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
+  padding:8px 4px 16px;
+}
+
+/* ── FEATURE CARDS ── */
+.feature-card{
+  flex:0 0 260px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:22px;padding:36px 24px 28px;
+  text-align:center;
+  transition:border-color .3s,box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+.feature-card::before{
+  content:'';position:absolute;inset:0;
+  background:var(--card-glow,rgba(232,67,122,.08));
+  opacity:0;transition:opacity .4s;border-radius:inherit;
+}
+.feature-card:hover{border-color:rgba(255,255,255,.2);box-shadow:0 12px 36px rgba(0,0,0,.3);}
+.feature-card:hover::before{opacity:1;}
+
+/* Shape icon area */
+.shape-icon{
+  width:90px;height:90px;margin:0 auto 20px;
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.feature-title{font-size:17px;font-weight:800;color:var(--white);margin-bottom:10px;}
+.feature-desc{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.75;}
+
+/* Slider nav */
+.slider-nav{
+  display:flex;align-items:center;justify-content:center;gap:12px;margin-top:28px;
+}
+.s-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(255,255,255,.25);
+  transition:background .3s,transform .3s;cursor:pointer;border:none;
+}
+.s-dot.active{background:var(--rose);transform:scale(1.3);}
+.s-arrow{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+  color:white;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s;
+}
+.s-arrow:hover{background:rgba(232,67,122,.3);}
+
+/* ══ SUNFLOWER SVG ══ */
+.sunflower svg,.cloud svg,.starshape svg,.moon svg,.butterfly svg{width:100%;height:100%;}
+
+/* ══ ADMISSION ══ */
+.admission-section{background:linear-gradient(180deg,#160832 0%,#1a0a2e 100%);}
+.admission-box{
+  background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(232,67,122,.12));
+  border:1.5px solid rgba(232,67,122,.35);border-radius:24px;
+  padding:44px 36px;text-align:center;position:relative;overflow:hidden;
+}
+.admission-box::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;
+  background:radial-gradient(circle,rgba(245,200,66,.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.admission-icon{font-size:50px;margin-bottom:14px;}
+.admission-title{font-size:clamp(18px,4vw,24px);font-weight:800;margin-bottom:12px;color:var(--gold);}
+.admission-text{font-size:15px;color:rgba(255,255,255,.8);line-height:1.88;max-width:520px;margin:0 auto;}
+.tag-limited{
+  display:inline-block;background:rgba(232,67,122,.18);
+  border:1px solid rgba(232,67,122,.45);color:var(--rose-light);
+  font-size:13px;font-weight:700;padding:6px 18px;border-radius:50px;margin-top:20px;
+  animation:pulse 2.2s ease infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,67,122,.35);}50%{box-shadow:0 0 0 8px rgba(232,67,122,0);}}
+
+/* ══ CONTACT ══ */
+.contact-section{background:linear-gradient(180deg,#1a0a2e 0%,#080314 100%);}
+.tulip-btn-area{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:44px;}
+.tulip-hint{
+  font-size:15px;font-weight:600;color:rgba(255,255,255,.5);
+  letter-spacing:.03em;transition:color .3s;
+  padding:7px 20px;border:1px solid rgba(255,255,255,.12);
+  border-radius:50px;backdrop-filter:blur(8px);
+}
+.tulip-btn{
+  position:relative;width:72px;height:96px;
+  background:none;border:none;cursor:pointer;outline:none;padding:0;transition:transform .3s;
+}
+.tulip-btn:hover{transform:scale(1.07);}
+.t-petal{transform-origin:50% 100%;transition:transform .65s cubic-bezier(.34,1.56,.64,1);}
+.t-petal-l{transform:rotate(-30deg) scaleX(.72);transform-origin:36px 44px;}
+.t-petal-r{transform:rotate(30deg)  scaleX(.72);transform-origin:36px 44px;}
+.t-petal-c{transform:scaleY(.88);transform-origin:36px 44px;}
+.tulip-stem{transition:stroke .3s;}
+.tulip-btn.bloomed .t-petal-l{transform:rotate(-50deg) scaleX(1);}
+.tulip-btn.bloomed .t-petal-r{transform:rotate(50deg)  scaleX(1);}
+.tulip-btn.bloomed .t-petal-c{transform:scaleY(1) translateY(-3px);}
+.tulip-glow{
+  position:absolute;inset:-20px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,67,122,.28) 0%,transparent 70%);
+  opacity:0;transition:opacity .5s;pointer-events:none;
+}
+.tulip-btn.bloomed .tulip-glow{opacity:1;}
+.scatter{position:absolute;top:20px;left:36px;width:7px;height:7px;border-radius:50% 10% 50% 10%;pointer-events:none;opacity:0;}
+.tulip-btn.bloomed .scatter{animation:scatter .75s ease-out both;}
+.tulip-btn.bloomed .s1{--sx:-34px;--sy:-42px;background:#f472a0;animation-delay:.0s;}
+.tulip-btn.bloomed .s2{--sx:34px; --sy:-42px;background:#f5c842;animation-delay:.05s;}
+.tulip-btn.bloomed .s3{--sx:-46px;--sy:-10px;background:#a78bfa;animation-delay:.08s;}
+.tulip-btn.bloomed .s4{--sx:46px; --sy:-10px;background:#f472a0;animation-delay:.04s;}
+.tulip-btn.bloomed .s5{--sx:-18px;--sy:-55px;background:#f5c842;animation-delay:.1s;}
+.tulip-btn.bloomed .s6{--sx:18px; --sy:-55px;background:#a78bfa;animation-delay:.07s;}
+@keyframes scatter{
+  0%{opacity:1;transform:translate(0,0) scale(1);}
+  70%{opacity:.8;}
+  100%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(.2);}
+}
+
+.contact-panel{overflow:hidden;max-height:0;opacity:0;transition:max-height .75s cubic-bezier(.4,0,.2,1),opacity .55s ease .1s;}
+.contact-panel.open{max-height:600px;opacity:1;}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;}
+.contact-card{
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);
+  border-radius:18px;padding:26px 22px;display:flex;align-items:flex-start;gap:14px;
+  opacity:0;transform:translateY(16px);
+  transition:background .3s,transform .3s,opacity .45s;
+}
+.contact-panel.open .contact-card{opacity:1;transform:translateY(0);}
+.contact-panel.open .contact-card:nth-child(1){transition-delay:.13s;}
+.contact-panel.open .contact-card:nth-child(2){transition-delay:.23s;}
+.contact-panel.open .contact-card:nth-child(3){transition-delay:.33s;}
+.contact-card:hover{background:rgba(255,255,255,.075);transform:translateY(-3px);}
+.contact-icon{font-size:26px;flex-shrink:0;filter:drop-shadow(0 2px 7px rgba(232,67,122,.35));}
+.contact-label{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:5px;font-weight:600;letter-spacing:.06em;}
+.contact-value{font-size:14px;font-weight:600;color:var(--white);line-height:1.8;direction:ltr;text-align:right;}
+.contact-card.instagram .contact-value{color:var(--rose-light);}
+.address-card{grid-column:1/-1;}
+
+footer{background:#050210;text-align:center;padding:26px 20px;color:rgba(255,255,255,.27);font-size:12px;border-top:1px solid rgba(255,255,255,.05);}
+footer span{color:var(--rose);}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(232,67,122,.3),transparent);}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* ══ SCROLL INDICATOR ══ */
+.scroll-indicator{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:fadeIn 1.5s ease both 1.2s;cursor:pointer;z-index:10;
+}
+.scroll-text{
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.5);
+  letter-spacing:.12em;text-transform:uppercase;
+}
+.scroll-mouse{
+  width:24px;height:38px;border:2px solid rgba(255,255,255,.3);
+  border-radius:12px;position:relative;
+}
+.scroll-wheel{
+  width:4px;height:8px;background:var(--rose-light);
+  border-radius:2px;position:absolute;top:6px;left:50%;transform:translateX(-50%);
+  animation:scrollWheel 1.8s ease infinite;
+}
+@keyframes scrollWheel{
+  0%{opacity:1;transform:translateX(-50%) translateY(0);}
+  80%{opacity:0;transform:translateX(-50%) translateY(14px);}
+  100%{opacity:0;transform:translateX(-50%) translateY(0);}
+}
+.scroll-chevrons{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.scroll-chevrons span{
+  display:block;width:10px;height:10px;
+  border-right:2px solid rgba(255,255,255,.4);border-bottom:2px solid rgba(255,255,255,.4);
+  transform:rotate(45deg);
+  animation:chevronFade 1.8s ease infinite;
+}
+.scroll-chevrons span:nth-child(2){animation-delay:.2s;opacity:.6;}
+.scroll-chevrons span:nth-child(3){animation-delay:.4s;opacity:.3;}
+@keyframes chevronFade{0%,100%{opacity:.8;}50%{opacity:.2;}}
+
+/* ══ SUNFLOWER NAV ARROWS ══ */
+.sf-nav-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(245,200,66,.15);border:1.5px solid rgba(245,200,66,.35);
+  color:#f5c842;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s,transform .3s;z-index:5;
+  backdrop-filter:blur(8px);
+}
+.sf-nav-btn:hover{background:rgba(245,200,66,.3);transform:translateY(-50%) scale(1.1);}
+.sf-nav-left{left:-44px;}
+.sf-nav-right{right:-44px;}
+@media(max-width:600px){
+  .sf-nav-left{left:-36px;}
+  .sf-nav-right{right:-36px;}
+}
+
+/* ══ COPY BUTTON ══ */
+.copy-wrap{display:inline-flex;align-items:center;gap:7px;position:relative;}
+.copy-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:28px;height:28px;border-radius:8px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  cursor:pointer;transition:background .25s,transform .2s,min-width .2s;flex-shrink:0;
+  color:rgba(255,255,255,.55);font-size:13px;padding:0 4px;
+}
+.copy-btn:hover{background:rgba(232,67,122,.25);border-color:var(--rose-light);color:var(--rose-light);transform:scale(1.1);}
+.copy-btn.copied{background:rgba(46,196,182,.2);border-color:var(--teal);color:var(--teal);font-size:11px;font-weight:700;}
+.copy-toast{
+  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:var(--teal);color:#0d0620;font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;
+  opacity:0;transition:opacity .2s;
+}
+.copy-btn.copied + .copy-toast{opacity:1;}
+
+@media(max-width:600px){
+  .feature-card{flex:0 0 80vw;}
+  .contact-grid{grid-template-columns:1fr;}
+  .admission-box{padding:28px 18px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="stars" id="stars"></div>
+  <div class="petals-bg" id="petals"></div>
+
+  <div class="badge">🌸 ثبت‌نام سال تحصیلی جدید</div>
+
+  <!-- Floral Logo SVG -->
+  <div class="hero-logo-wrap">
+    <svg viewBox="0 0 540 170" width="min(540px,90vw)" style="overflow:visible;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fff8f0"/>
+          <stop offset="44%" stop-color="#f5c842"/>
+          <stop offset="100%" stop-color="#e8437a"/>
+        </linearGradient>
+        <radialGradient id="pg1" cx="50%" cy="25%" r="75%">
+          <stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#e8437a"/>
+        </radialGradient>
+        <radialGradient id="pg2" cx="50%" cy="25%" r="75%">
+          <stop offset="0%" stop-color="#fffde7"/><stop offset="100%" stop-color="#f5c842"/>
+        </radialGradient>
+        <radialGradient id="pg3" cx="50%" cy="25%" r="75%">
+          <stop offset="0%" stop-color="#ede9fe"/><stop offset="100%" stop-color="#7c3aed"/>
+        </radialGradient>
+        <filter id="textGlow" x="-20%" y="-40%" width="140%" height="180%">
+          <feGaussianBlur stdDeviation="7" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="sg" x="-30%" y="-60%" width="160%" height="220%">
+          <feGaussianBlur stdDeviation="2.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Branch LEFT -->
+      <g filter="url(#sg)" opacity=".93">
+        <path d="M 88,32 C 68,23 46,28 26,17" stroke="#c0265c" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path d="M 62,27 C 56,14 50,6 46,0" stroke="#c0265c" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <path d="M 40,20 C 36,11 34,4 38,-3" stroke="#c0265c" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <g transform="translate(26,17)">
+          <ellipse rx="4.5" ry="8.5" fill="url(#pg1)" opacity=".9" transform="rotate(-25) translate(0,-6)"/>
+          <ellipse rx="4.5" ry="8.5" fill="url(#pg1)" opacity=".85" transform="rotate(35) translate(0,-6)"/>
+          <ellipse rx="4.5" ry="8.5" fill="url(#pg1)" opacity=".88" transform="rotate(95) translate(0,-6)"/>
+          <circle r="4.2" fill="#fff8e1" opacity=".96"/><circle r="2" fill="#f5c842"/>
+        </g>
+        <g transform="translate(46,0)">
+          <ellipse rx="3" ry="5.5" fill="url(#pg2)" opacity=".9" transform="translate(0,-3)"/>
+          <ellipse rx="3" ry="5.5" fill="url(#pg2)" opacity=".8" transform="rotate(65) translate(0,-3)"/>
+          <ellipse rx="3" ry="5.5" fill="url(#pg2)" opacity=".85" transform="rotate(-65) translate(0,-3)"/>
+          <circle r="2.5" fill="#fffde7" opacity=".9"/>
+        </g>
+        <g transform="translate(38,-3)">
+          <ellipse rx="2.5" ry="4.5" fill="url(#pg3)" opacity=".88" transform="translate(0,-3)"/>
+          <ellipse rx="2.5" ry="4.5" fill="url(#pg3)" opacity=".8" transform="rotate(70) translate(0,-3)"/>
+          <circle r="2" fill="#ede9fe" opacity=".9"/>
+        </g>
+        <path d="M 54,26 Q 51,17 57,12 Q 57,20 54,26Z" fill="#c0265c" opacity=".45"/>
+        <path d="M 37,21 Q 33,13 39,9 Q 39,17 37,21Z" fill="#7c3aed" opacity=".4"/>
+      </g>
+
+      <!-- Branch RIGHT -->
+      <g filter="url(#sg)" opacity=".93">
+        <path d="M 452,32 C 472,23 494,28 514,17" stroke="#c0265c" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path d="M 478,27 C 484,14 490,6 494,0" stroke="#c0265c" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <path d="M 500,20 C 504,11 506,4 502,-3" stroke="#c0265c" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <g transform="translate(514,17)">
+          <ellipse rx="4.5" ry="8.5" fill="url(#pg3)" opacity=".9" transform="rotate(25) translate(0,-6)"/>
+          <ellipse rx="4.5" ry="8.5" fill="url(#pg3)" opacity=".85" transform="rotate(-35) translate(0,-6)"/>
+          <ellipse rx="4.5" ry="8.5" fill="url(#pg3)" opacity=".88" transform="rotate(-95) translate(0,-6)"/>
+          <circle r="4.2" fill="#ede9fe" opacity=".96"/><circle r="2" fill="#7c3aed"/>
+        </g>
+        <g transform="translate(494,0)">
+          <ellipse rx="3" ry="5.5" fill="url(#pg1)" opacity=".9" transform="translate(0,-3)"/>
+          <ellipse rx="3" ry="5.5" fill="url(#pg1)" opacity=".8" transform="rotate(65) translate(0,-3)"/>
+          <ellipse rx="3" ry="5.5" fill="url(#pg1)" opacity=".85" transform="rotate(-65) translate(0,-3)"/>
+          <circle r="2.5" fill="#fce4ec" opacity=".9"/>
+        </g>
+        <g transform="translate(502,-3)">
+          <ellipse rx="2.5" ry="4.5" fill="url(#pg2)" opacity=".88" transform="translate(0,-3)"/>
+          <ellipse rx="2.5" ry="4.5" fill="url(#pg2)" opacity=".8" transform="rotate(70) translate(0,-3)"/>
+          <circle r="2" fill="#fffde7" opacity=".9"/>
+        </g>
+        <path d="M 486,26 Q 489,17 483,12 Q 483,20 486,26Z" fill="#c0265c" opacity=".45"/>
+        <path d="M 503,21 Q 507,13 501,9 Q 501,17 503,21Z" fill="#f5c842" opacity=".4"/>
+      </g>
+
+      <!-- Branch CENTRE -->
+      <g filter="url(#sg)" opacity=".9">
+        <path d="M 267,30 C 267,17 262,7 267,-5" stroke="#d4a017" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M 267,19 C 255,12 248,4 244,-3" stroke="#d4a017" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <path d="M 267,19 C 279,12 286,4 290,-3" stroke="#d4a017" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <g transform="translate(267,-5)">
+          <ellipse rx="4" ry="7.5" fill="url(#pg2)" opacity=".93" transform="translate(0,-5)"/>
+          <ellipse rx="4" ry="7.5" fill="url(#pg2)" opacity=".88" transform="rotate(72) translate(0,-5)"/>
+          <ellipse rx="4" ry="7.5" fill="url(#pg1)" opacity=".9" transform="rotate(144) translate(0,-5)"/>
+          <ellipse rx="4" ry="7.5" fill="url(#pg1)" opacity=".88" transform="rotate(216) translate(0,-5)"/>
+          <ellipse rx="4" ry="7.5" fill="url(#pg2)" opacity=".93" transform="rotate(288) translate(0,-5)"/>
+          <circle r="4.8" fill="#fff8e1" opacity=".97"/><circle r="2.3" fill="#d4a017"/>
+        </g>
+        <g transform="translate(244,-3)">
+          <ellipse rx="2.5" ry="4.5" fill="url(#pg3)" opacity=".9" transform="rotate(-20) translate(0,-3)"/>
+          <ellipse rx="2.5" ry="4.5" fill="url(#pg3)" opacity=".8" transform="rotate(55) translate(0,-3)"/>
+          <circle r="2" fill="#ede9fe" opacity=".9"/>
+        </g>
+        <g transform="translate(290,-3)">
+          <ellipse rx="2.5" ry="4.5" fill="url(#pg3)" opacity=".9" transform="rotate(20) translate(0,-3)"/>
+          <ellipse rx="2.5" ry="4.5" fill="url(#pg3)" opacity=".8" transform="rotate(-55) translate(0,-3)"/>
+          <circle r="2" fill="#ede9fe" opacity=".9"/>
+        </g>
+        <path d="M 264,23 Q 256,18 259,11 Q 264,17 264,23Z" fill="#d4a017" opacity=".42"/>
+        <path d="M 270,23 Q 278,18 275,11 Q 270,17 270,23Z" fill="#d4a017" opacity=".42"/>
+      </g>
+
+      <!-- Word هدف -->
+      <text x="270" y="148" text-anchor="middle"
+        font-family="'Vazirmatn',sans-serif" font-weight="900" font-size="136"
+        fill="url(#tg)" filter="url(#textGlow)" letter-spacing="-2">هدف</text>
+    </svg>
+  </div>
+
+  <div class="hero-subtitle">دبیرستان غیردولتی دخترانه</div>
+  <div class="hero-type">متوسطه اول</div>
+
+  <div class="grades-row">
+    <div class="grade-pill">📚 پایه هفتم</div>
+    <div class="grade-pill">📗 پایه هشتم</div>
+    <div class="grade-pill">📘 پایه نهم</div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator" onclick="document.querySelector('.why-section').scrollIntoView({behavior:'smooth'})">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <div class="scroll-chevrons">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="scroll-text">صفحه را پایین بکشید</div>
+  </div>
+</div>
+
+<!-- ══ WHY — SLIDER ══ -->
+<div class="why-section">
+  <div class="section-wrap">
+    <h2 class="section-title reveal">چرا مدرسه هدف؟</h2>
+
+    <div class="slider-outer reveal">
+      <div class="slider-track" id="sliderTrack">
+
+        <!-- CARD 1 — Sunflower -->
+        <div class="feature-card" style="--card-glow:rgba(245,200,66,.12);position:relative;">
+          <button class="sf-nav-btn sf-nav-right" id="sfRight" title="کارت قبلی">‹</button>
+          <button class="sf-nav-btn sf-nav-left" id="sfLeft" title="کارت بعدی">›</button>
+          <div class="shape-icon" style="font-size:64px;display:flex;align-items:center;justify-content:center;">🏆</div>
+          <div class="feature-title">بالاترین استانداردهای آموزشی</div>
+          <div class="feature-desc">برنامه درسی منسجم و هدفمند برای رشد علمی پایدار دانش‌آموزان</div>
+        </div>
+
+        <!-- CARD 2 — Cloud -->
+        <div class="feature-card" style="--card-glow:rgba(46,196,182,.1)">
+          <div class="shape-icon" style="font-size:64px;display:flex;align-items:center;justify-content:center;">👩‍🏫</div>
+          <div class="feature-title">دبیران مجرب و متعهد</div>
+          <div class="feature-desc">آموزش با بهترین معلمان دلسوز و با تجربه در کنار دانش‌آموزان</div>
+        </div>
+
+        <!-- CARD 3 — Star -->
+        <div class="feature-card" style="--card-glow:rgba(232,67,122,.1)">
+          <div class="shape-icon" style="font-size:64px;display:flex;align-items:center;justify-content:center;">🌈</div>
+          <div class="feature-title">محیط شاد و امن</div>
+          <div class="feature-desc">فضایی سرشار از نشاط، امنیت و آرامش برای یادگیری بهتر</div>
+        </div>
+
+        <!-- CARD 4 — Moon -->
+        <div class="feature-card" style="--card-glow:rgba(167,139,250,.12)">
+          <div class="shape-icon" style="font-size:64px;display:flex;align-items:center;justify-content:center;">🏕️</div>
+          <div class="feature-title">اردوهای تفریحی و آموزشی</div>
+          <div class="feature-desc">برنامه‌های اردویی متنوع برای ارتقای روحیه تیمی و تجربه‌اندوزی</div>
+        </div>
+
+        <!-- CARD 5 — Butterfly (انتخاب من) -->
+        <div class="feature-card" style="--card-glow:rgba(232,67,122,.1)">
+          <div class="shape-icon" style="font-size:64px;display:flex;align-items:center;justify-content:center;">🎨</div>
+          <div class="feature-title">کلاس‌های فوق‌برنامه متنوع</div>
+          <div class="feature-desc">هنر، ورزش، زبان و مهارت‌های متنوع در کنار درس‌های اصلی</div>
+        </div>
+
+      </div><!-- /slider-track -->
+    </div><!-- /slider-outer -->
+
+    <!-- Nav -->
+    <div class="slider-nav reveal">
+      <button class="s-arrow" id="sPrev">‹</button>
+      <button class="s-dot active" data-i="0"></button>
+      <button class="s-dot" data-i="1"></button>
+      <button class="s-dot" data-i="2"></button>
+      <button class="s-dot" data-i="3"></button>
+      <button class="s-dot" data-i="4"></button>
+      <button class="s-arrow" id="sNext">›</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ ADMISSION ══ -->
+<div class="admission-section">
+  <div class="section-wrap">
+    <h2 class="section-title reveal">ثبت‌نام</h2>
+    <div class="admission-box reveal">
+      <div class="admission-icon">📋</div>
+      <div class="admission-title">پذیرش از طریق مصاحبه</div>
+      <div class="admission-text">
+        پذیرش دانش‌آموزان با حضور والدین گرامی و از طریق مصاحبه صورت می‌پذیرد.<br>
+        برای رزرو وقت و کسب اطلاعات بیشتر با ما تماس بگیرید.
+      </div>
+      <div class="tag-limited">⚡ ظرفیت محدود در تمام پایه‌ها</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ CONTACT ══ -->
+<div class="contact-section">
+  <div class="section-wrap">
+    <h2 class="section-title reveal">اطلاعات تماس</h2>
+
+    <div class="tulip-btn-area reveal">
+      <button class="tulip-btn" id="tulipBtn" aria-label="نمایش اطلاعات تماس">
+        <div class="tulip-glow"></div>
+        <span class="scatter s1"></span><span class="scatter s2"></span>
+        <span class="scatter s3"></span><span class="scatter s4"></span>
+        <span class="scatter s5"></span><span class="scatter s6"></span>
+        <svg viewBox="0 0 72 96" width="72" height="96" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+          <defs>
+            <radialGradient id="tpL" cx="40%" cy="20%" r="80%"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#c0265c"/></radialGradient>
+            <radialGradient id="tpC" cx="50%" cy="15%" r="80%"><stop offset="0%" stop-color="#fff0f4"/><stop offset="100%" stop-color="#e8437a"/></radialGradient>
+            <radialGradient id="tpR" cx="60%" cy="20%" r="80%"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#c0265c"/></radialGradient>
+            <filter id="tGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="2" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path class="tulip-stem" d="M 36,92 C 36,74 36,62 36,46" stroke="#166534" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 36,70 C 27,63 19,56 17,47 C 26,51 33,61 36,70Z" fill="#166534" opacity=".8"/>
+          <path d="M 36,63 C 45,56 53,49 55,40 C 46,44 39,55 36,63Z" fill="#15803d" opacity=".7"/>
+          <path class="t-petal t-petal-l" d="M 36,46 C 19,43 11,30 15,13 C 19,-1 32,1 36,14 Z" fill="url(#tpL)" opacity=".95" filter="url(#tGlow)"/>
+          <path class="t-petal t-petal-r" d="M 36,46 C 53,43 61,30 57,13 C 53,-1 40,1 36,14 Z" fill="url(#tpR)" opacity=".95" filter="url(#tGlow)"/>
+          <path class="t-petal t-petal-c" d="M 36,46 C 25,41 21,24 27,9 C 31,-1 41,-1 45,9 C 51,24 47,41 36,46 Z" fill="url(#tpC)" opacity=".98" filter="url(#tGlow)"/>
+          <circle cx="29" cy="19" r="1.8" fill="#f5c842" opacity=".9"/>
+          <circle cx="36" cy="13" r="1.8" fill="#f5c842" opacity=".9"/>
+          <circle cx="43" cy="19" r="1.8" fill="#f5c842" opacity=".9"/>
+        </svg>
+      </button>
+      <span class="tulip-hint" id="tulipHint">برای دیدن اطلاعات تماس بر روی گل کلیک کنید</span>
+    </div>
+
+    <div class="contact-panel" id="contactPanel">
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">شماره تماس</div>
+            <div class="contact-value">
+              <div class="copy-wrap">
+                <span>09175102695</span>
+                <button class="copy-btn" onclick="copyText(this,'09175102695')" title="کپی">📋</button>
+                <span class="copy-toast">کپی شد!</span>
+              </div>
+              <div class="copy-wrap">
+                <span>09051232696</span>
+                <button class="copy-btn" onclick="copyText(this,'09051232696')" title="کپی">📋</button>
+                <span class="copy-toast">کپی شد!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-card instagram">
+          <div class="contact-icon">📷</div>
+          <div>
+            <div class="contact-label">اینستاگرام</div>
+            <div class="contact-value">
+              <div class="copy-wrap">
+                <span>hadafschool.girls.bu</span>
+                <button class="copy-btn" onclick="copyText(this,'hadafschool.girls.bu')" title="کپی">📋</button>
+                <span class="copy-toast">کپی شد!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-card address-card">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">آدرس</div>
+            <div class="contact-value" style="direction:rtl;text-align:right;font-size:14px;">
+              خیابان فرودگاه، کوچه شهید میگلی‌نژاد (سپیدار ۲)، فرعی هشت
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>دبیرستان غیردولتی دخترانه <span>هدف</span> — متوسطه اول</div>
+</footer>
+
+<script>
+// ── Copy to clipboard ──
+function copyText(btn,text){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+  }catch(e){}
+  btn.textContent='✅ کپی شد';
+  btn.style.background='rgba(46,196,182,.35)';
+  btn.style.borderColor='#2ec4b6';
+  btn.style.color='#2ec4b6';
+  btn.style.padding='0 10px';
+  btn.style.minWidth='auto';
+  btn.style.fontWeight='700';
+  btn.style.fontSize='12px';
+  setTimeout(()=>{
+    btn.textContent='📋';
+    btn.style.background='';
+    btn.style.borderColor='';
+    btn.style.color='';
+    btn.style.padding='';
+    btn.style.minWidth='';
+    btn.style.fontWeight='';
+    btn.style.fontSize='';
+  },2500);
+}
+
+// ── Stars ──
+const starsEl=document.getElementById('stars');
+for(let i=0;i<70;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*2.4+.4;
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*3+2).toFixed(1)}s;animation-delay:${(Math.random()*5).toFixed(1)}s;`;
+  starsEl.appendChild(s);
+}
+// ── Petals ──
+const petalsEl=document.getElementById('petals');
+for(let i=0;i<14;i++){
+  const p=document.createElement('div');p.className='petal-bg';
+  const sz=Math.random()*9+4;
+  p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;--d:${(Math.random()*10+7).toFixed(1)}s;--delay:-${(Math.random()*15).toFixed(1)}s;opacity:${(Math.random()*0.32+.1).toFixed(2)};`;
+  petalsEl.appendChild(p);
+}
+
+// ── Scroll reveal ──
+const reveals=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*70);io.unobserve(e.target);}
+  });
+},{threshold:.08});
+reveals.forEach(el=>io.observe(el));
+
+// ── Slider ──
+const track=document.getElementById('sliderTrack');
+const cards=[...track.querySelectorAll('.feature-card')];
+const dots=[...document.querySelectorAll('.s-dot')];
+let cur=0;
+const cardW=()=>cards[0].offsetWidth+22;
+
+function goTo(n){
+  cur=Math.max(0,Math.min(n,cards.length-1));
+  track.style.transform=`translateX(${cur*cardW()}px)`;
+  dots.forEach((d,i)=>d.classList.toggle('active',i===cur));
+}
+document.getElementById('sPrev').onclick=()=>goTo(cur-1);
+document.getElementById('sNext').onclick=()=>goTo(cur+1);
+dots.forEach(d=>d.addEventListener('click',()=>goTo(+d.dataset.i)));
+
+// Sunflower card nav (same as prev/next)
+document.getElementById('sfLeft').onclick=()=>goTo(cur+1);
+document.getElementById('sfRight').onclick=()=>goTo(cur-1);
+
+// Touch swipe
+let tx0=0;
+track.addEventListener('touchstart',e=>{tx0=e.touches[0].clientX;},{passive:true});
+track.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx0;
+  if(Math.abs(dx)>40) goTo(dx<0?cur+1:cur-1);
+});
+
+// ── Tulip button ──
+const btn=document.getElementById('tulipBtn');
+const panel=document.getElementById('contactPanel');
+const hint=document.getElementById('tulipHint');
+let open=false;
+btn.addEventListener('click',()=>{
+  open=!open;
+  btn.classList.toggle('bloomed',open);
+  panel.classList.toggle('open',open);
+  hint.textContent=open?'بستن':'برای دیدن اطلاعات تماس بر روی گل کلیک کنید';
+  hint.style.color=open?'rgba(244,114,160,.7)':'rgba(255,255,255,.5)';
+});
+</script>
+</body>
+</html>
